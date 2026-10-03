@@ -3,177 +3,1056 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malik Hub</title>
+    <title>Malik Battle</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
+            overflow: hidden;
+            background: #000;
             font-family: Arial, sans-serif;
-            background: #111827;
+        }
+
+        #game {
+            position: fixed;
+            inset: 0;
+        }
+
+        #crosshair {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 24px;
+            height: 24px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        #crosshair::before,
+        #crosshair::after {
+            content: "";
+            position: absolute;
+            background: white;
+        }
+
+        #crosshair::before {
+            width: 24px;
+            height: 2px;
+            top: 11px;
+            left: 0;
+        }
+
+        #crosshair::after {
+            width: 2px;
+            height: 24px;
+            top: 0;
+            left: 11px;
+        }
+
+        #hud {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 20;
             color: white;
+            background: rgba(0, 0, 0, 0.55);
+            padding: 15px;
+            border-radius: 12px;
+            min-width: 190px;
         }
 
-        header {
-            padding: 30px;
-            text-align: center;
-            background: #1f2937;
+        #healthBar {
+            width: 160px;
+            height: 15px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
         }
 
-        h1 {
-            font-size: 48px;
-            margin: 10px 0;
+        #health {
+            width: 100%;
+            height: 100%;
+            background: #22c55e;
         }
 
-        header p {
+        #weapon {
+            margin-top: 10px;
             font-size: 18px;
+        }
+
+        #startScreen {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            background: linear-gradient(#07111f, #101827);
+            text-align: center;
+        }
+
+        #startScreen h1 {
+            font-size: 60px;
+            margin: 0 0 10px;
+        }
+
+        #startScreen p {
+            max-width: 600px;
+            line-height: 1.6;
             color: #cbd5e1;
         }
 
-        nav {
-            text-align: center;
-            padding: 15px;
-            background: #0f172a;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-
-        main {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .hero h2 {
-            font-size: 32px;
-        }
-
-        .cards {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .card {
-            background: #1f2937;
-            border-radius: 15px;
-            padding: 25px;
-            width: 250px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        }
-
-        .card h3 {
-            font-size: 24px;
-        }
-
-        .button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 12px 18px;
+        #startButton {
+            margin-top: 20px;
+            padding: 16px 35px;
+            border: 0;
+            border-radius: 12px;
             background: #2563eb;
             color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            border: none;
+            font-size: 20px;
             cursor: pointer;
         }
 
-        footer {
-            text-align: center;
-            padding: 30px;
-            margin-top: 50px;
-            background: #0f172a;
-            color: #94a3b8;
+        #message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            background: rgba(0,0,0,.65);
+            padding: 12px 20px;
+            border-radius: 10px;
+            z-index: 30;
+            display: none;
         }
     </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>Malik Hub</h1>
-        <p>Welcome to my corner of the internet.</p>
-    </header>
+<div id="game"></div>
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#projects">Projects</a>
-        <a href="#about">About</a>
-    </nav>
+<div id="crosshair"></div>
 
-    <main id="home">
+<div id="hud">
+    <div>❤️ Health: <span id="healthText">100</span></div>
+    <div id="healthBar">
+        <div id="health"></div>
+    </div>
 
-        <section class="hero">
-            <h2>Welcome 👋</h2>
-            <p>This is Malik Hub — a place for my projects, experiments, and ideas.</p>
-            <button class="button" onclick="showMessage()">Click Me</button>
-        </section>
+    <div id="weapon">⚡ Laser Blaster</div>
+    <div>🤖 Bots: <span id="botCount">12</span></div>
+</div>
 
-        <section id="projects">
-            <h2>Projects</h2>
+<div id="message"></div>
 
-            <div class="cards">
+<div id="startScreen">
+    <h1>⚡ MALIK BATTLE</h1>
+    <p>
+        A 3D battle royale-style prototype.
+        You spawn with a laser blaster while AI bots
+        search the arena and fight.
+    </p>
 
-                <div class="card">
-                    <h3>⚡ Electronics</h3>
-                    <p>My electronics and engineering projects.</p>
-                    <button class="button" onclick="showProject('Electronics')">
-                        Explore
-                    </button>
-                </div>
+    <p>
+        WASD = Move<br>
+        Mouse = Look<br>
+        Click = Fire
+    </p>
 
-                <div class="card">
-                    <h3>💻 Coding</h3>
-                    <p>Python, websites, and other coding experiments.</p>
-                    <button class="button" onclick="showProject('Coding')">
-                        Explore
-                    </button>
-                </div>
+    <button id="startButton">START GAME</button>
+</div>
 
-                <div class="card">
-                    <h3>🤖 Oscar</h3>
-                    <p>My experimental AI and technology projects.</p>
-                    <button class="button" onclick="showProject('Oscar')">
-                        Explore
-                    </button>
-                </div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
-            </div>
-        </section>
+<script>
+/* =========================================================
+   MALIK BATTLE
+   3D BROWSER GAME FOUNDATION
+   ========================================================= */
 
-        <section id="about" style="margin-top: 50px;">
-            <h2>About</h2>
-            <p>
-                Malik Hub is my personal website where I can build,
-                experiment, and show what I'm working on.
-            </p>
-        </section>
+let scene;
+let camera;
+let renderer;
+let player;
+let clock;
 
-    </main>
+let gameStarted = false;
+let playerHealth = 100;
 
-    <footer>
-        © 2026 Malik Hub
-    </footer>
+const keys = {};
 
-    <script>
-        function showMessage() {
-            alert("Welcome to Malik Hub! 🚀");
+const bots = [];
+const lasers = [];
+
+const arenaSize = 180;
+
+
+/* =========================================================
+   START GAME
+   ========================================================= */
+
+document.getElementById("startButton").onclick = startGame;
+
+function startGame() {
+
+    document.getElementById("startScreen").style.display = "none";
+
+    gameStarted = true;
+
+    init();
+
+    animate();
+}
+
+
+/* =========================================================
+   INITIALIZE THREE.JS
+   ========================================================= */
+
+function init() {
+
+    clock = new THREE.Clock();
+
+    scene = new THREE.Scene();
+
+    scene.background = new THREE.Color(0x87ceeb);
+
+    scene.fog = new THREE.Fog(0x87ceeb, 80, 220);
+
+
+    /* CAMERA */
+
+    camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        500
+    );
+
+
+    /* RENDERER */
+
+    renderer = new THREE.WebGLRenderer({
+        antialias: true
+    });
+
+    renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+    );
+
+    renderer.shadowMap.enabled = true;
+
+    document.getElementById("game").appendChild(renderer.domElement);
+
+
+    /* LIGHTING */
+
+    const sunlight = new THREE.DirectionalLight(
+        0xffffff,
+        2
+    );
+
+    sunlight.position.set(50, 100, 50);
+
+    sunlight.castShadow = true;
+
+    scene.add(sunlight);
+
+
+    const ambient = new THREE.AmbientLight(
+        0xffffff,
+        0.7
+    );
+
+    scene.add(ambient);
+
+
+    /* WORLD */
+
+    createArena();
+
+    createBuildings();
+
+
+    /* PLAYER */
+
+    createPlayer();
+
+
+    /* BOTS */
+
+    for (let i = 0; i < 12; i++) {
+        createBot(i);
+    }
+
+
+    /* CAMERA */
+
+    camera.position.set(
+        player.position.x,
+        player.position.y + 2,
+        player.position.z
+    );
+
+
+    window.addEventListener(
+        "resize",
+        resize
+    );
+
+    document.addEventListener(
+        "keydown",
+        keyDown
+    );
+
+    document.addEventListener(
+        "keyup",
+        keyUp
+    );
+
+    document.addEventListener(
+        "mousedown",
+        shoot
+    );
+
+    document.addEventListener(
+        "mousemove",
+        mouseLook
+    );
+}
+
+
+/* =========================================================
+   ARENA
+   ========================================================= */
+
+function createArena() {
+
+    const groundGeometry =
+        new THREE.PlaneGeometry(
+            arenaSize,
+            arenaSize
+        );
+
+    const groundMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0x4b7f35
+        });
+
+    const ground =
+        new THREE.Mesh(
+            groundGeometry,
+            groundMaterial
+        );
+
+    ground.rotation.x = -Math.PI / 2;
+
+    ground.receiveShadow = true;
+
+    scene.add(ground);
+
+
+    /* GRID */
+
+    const grid =
+        new THREE.GridHelper(
+            arenaSize,
+            36,
+            0x335522,
+            0x557744
+        );
+
+    grid.position.y = 0.01;
+
+    scene.add(grid);
+}
+
+
+/* =========================================================
+   BUILDINGS
+   ========================================================= */
+
+function createBuildings() {
+
+    for (let i = 0; i < 25; i++) {
+
+        const x =
+            (Math.random() - 0.5) *
+            (arenaSize - 20);
+
+        const z =
+            (Math.random() - 0.5) *
+            (arenaSize - 20);
+
+        const width =
+            5 + Math.random() * 7;
+
+        const height =
+            3 + Math.random() * 8;
+
+        const depth =
+            5 + Math.random() * 7;
+
+
+        const geometry =
+            new THREE.BoxGeometry(
+                width,
+                height,
+                depth
+            );
+
+        const material =
+            new THREE.MeshStandardMaterial({
+                color:
+                    Math.random() > 0.5
+                    ? 0x777777
+                    : 0x8b6f47
+            });
+
+        const building =
+            new THREE.Mesh(
+                geometry,
+                material
+            );
+
+        building.position.set(
+            x,
+            height / 2,
+            z
+        );
+
+        building.castShadow = true;
+
+        building.receiveShadow = true;
+
+        scene.add(building);
+    }
+}
+
+
+/* =========================================================
+   PLAYER
+   ========================================================= */
+
+function createPlayer() {
+
+    player = new THREE.Object3D();
+
+    player.position.set(
+        0,
+        1.7,
+        25
+    );
+
+    scene.add(player);
+
+    camera.position.y = 1.7;
+
+    player.add(camera);
+}
+
+
+/* =========================================================
+   BOTS
+   ========================================================= */
+
+function createBot(index) {
+
+    const geometry =
+        new THREE.CapsuleGeometry(
+            0.7,
+            1.4,
+            6,
+            12
+        );
+
+    const material =
+        new THREE.MeshStandardMaterial({
+            color:
+                new THREE.Color(
+                    Math.random(),
+                    0.2 + Math.random() * 0.5,
+                    0.2 + Math.random() * 0.5
+                )
+        });
+
+    const bot =
+        new THREE.Mesh(
+            geometry,
+            material
+        );
+
+
+    bot.position.set(
+        (Math.random() - 0.5) *
+        (arenaSize - 20),
+
+        1.7,
+
+        (Math.random() - 0.5) *
+        (arenaSize - 20)
+    );
+
+
+    bot.userData.health = 100;
+
+    bot.userData.speed =
+        1.5 + Math.random() * 1.5;
+
+    bot.userData.timer = Math.random() * 3;
+
+    bot.userData.shootTimer =
+        Math.random() * 4;
+
+
+    scene.add(bot);
+
+    bots.push(bot);
+}
+
+
+/* =========================================================
+   PLAYER MOVEMENT
+   ========================================================= */
+
+function updatePlayer(delta) {
+
+    const speed = 10 * delta;
+
+    const direction =
+        new THREE.Vector3();
+
+
+    if (keys["KeyW"]) {
+        direction.z -= 1;
+    }
+
+    if (keys["KeyS"]) {
+        direction.z += 1;
+    }
+
+    if (keys["KeyA"]) {
+        direction.x -= 1;
+    }
+
+    if (keys["KeyD"]) {
+        direction.x += 1;
+    }
+
+
+    if (direction.length() > 0) {
+
+        direction.normalize();
+
+        direction.applyQuaternion(
+            new THREE.Quaternion()
+                .setFromAxisAngle(
+                    new THREE.Vector3(0,1,0),
+                    player.rotation.y
+                )
+        );
+
+        player.position.addScaledVector(
+            direction,
+            speed
+        );
+    }
+
+
+    player.position.x =
+        THREE.MathUtils.clamp(
+            player.position.x,
+            -arenaSize / 2,
+            arenaSize / 2
+        );
+
+    player.position.z =
+        THREE.MathUtils.clamp(
+            player.position.z,
+            -arenaSize / 2,
+            arenaSize / 2
+        );
+}
+
+
+/* =========================================================
+   BOT AI
+   ========================================================= */
+
+function updateBots(delta) {
+
+    for (const bot of bots) {
+
+        if (bot.userData.health <= 0)
+            continue;
+
+
+        const distance =
+            bot.position.distanceTo(
+                player.position
+            );
+
+
+        /* MOVE TOWARD PLAYER */
+
+        if (distance > 12) {
+
+            const direction =
+                new THREE.Vector3()
+                    .subVectors(
+                        player.position,
+                        bot.position
+                    )
+                    .normalize();
+
+
+            bot.position.addScaledVector(
+                direction,
+                bot.userData.speed * delta
+            );
+
+        } else {
+
+            /* MOVE SIDEWAYS */
+
+            bot.userData.timer -= delta;
+
+            if (bot.userData.timer <= 0) {
+
+                bot.userData.timer =
+                    1 + Math.random() * 2;
+
+                bot.userData.direction =
+                    Math.random() > 0.5
+                    ? 1
+                    : -1;
+            }
+
+
+            bot.position.x +=
+                bot.userData.direction *
+                delta *
+                2;
         }
 
-        function showProject(name) {
-            alert(name + " project coming soon!");
+
+        /* SHOOT */
+
+        bot.userData.shootTimer -= delta;
+
+        if (
+            distance < 45 &&
+            bot.userData.shootTimer <= 0
+        ) {
+
+            bot.userData.shootTimer =
+                1.5 + Math.random() * 2;
+
+            botShoot(bot);
         }
-    </script>
+    }
+}
+
+
+/* =========================================================
+   PLAYER LASER
+   ========================================================= */
+
+function shoot() {
+
+    if (!gameStarted)
+        return;
+
+    const direction =
+        new THREE.Vector3(
+            0,
+            0,
+            -1
+        );
+
+    direction.applyQuaternion(
+        camera.quaternion
+    );
+
+
+    createLaser(
+        camera.getWorldPosition(
+            new THREE.Vector3()
+        ),
+        direction,
+        true
+    );
+}
+
+
+/* =========================================================
+   BOT LASER
+   ========================================================= */
+
+function botShoot(bot) {
+
+    const origin =
+        bot.position.clone();
+
+    origin.y += 0.5;
+
+
+    const direction =
+        new THREE.Vector3()
+            .subVectors(
+                player.position,
+                origin
+            )
+            .normalize();
+
+
+    createLaser(
+        origin,
+        direction,
+        false
+    );
+}
+
+
+/* =========================================================
+   CREATE LASER
+   ========================================================= */
+
+function createLaser(
+    origin,
+    direction,
+    friendly
+) {
+
+    const geometry =
+        new THREE.CylinderGeometry(
+            0.08,
+            0.08,
+            2.5,
+            8
+        );
+
+    const material =
+        new THREE.MeshBasicMaterial({
+            color:
+                friendly
+                ? 0x00ffff
+                : 0xff2222
+        });
+
+
+    const laser =
+        new THREE.Mesh(
+            geometry,
+            material
+        );
+
+
+    laser.position.copy(origin);
+
+
+    laser.quaternion.setFromUnitVectors(
+        new THREE.Vector3(0,1,0),
+        direction
+    );
+
+
+    laser.userData.velocity =
+        direction.clone().multiplyScalar(70);
+
+    laser.userData.friendly =
+        friendly;
+
+    laser.userData.life = 2;
+
+
+    scene.add(laser);
+
+    lasers.push(laser);
+}
+
+
+/* =========================================================
+   UPDATE LASERS
+   ========================================================= */
+
+function updateLasers(delta) {
+
+    for (
+        let i = lasers.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        const laser = lasers[i];
+
+
+        laser.position.addScaledVector(
+            laser.userData.velocity,
+            delta
+        );
+
+
+        laser.userData.life -= delta;
+
+
+        if (laser.userData.life <= 0) {
+
+            scene.remove(laser);
+
+            lasers.splice(i, 1);
+
+            continue;
+        }
+
+
+        /* PLAYER LASER HITS BOT */
+
+        if (laser.userData.friendly) {
+
+            for (const bot of bots) {
+
+                if (bot.userData.health <= 0)
+                    continue;
+
+
+                if (
+                    laser.position.distanceTo(
+                        bot.position
+                    ) < 1.5
+                ) {
+
+                    bot.userData.health -= 40;
+
+                    scene.remove(laser);
+
+                    lasers.splice(i, 1);
+
+
+                    if (
+                        bot.userData.health <= 0
+                    ) {
+
+                        bot.visible = false;
+
+                        updateBotCount();
+                    }
+
+                    break;
+                }
+            }
+        }
+
+
+        /* BOT LASER HITS PLAYER */
+
+        else {
+
+            if (
+                laser.position.distanceTo(
+                    player.position
+                ) < 1.5
+            ) {
+
+                playerDamage(10);
+
+                scene.remove(laser);
+
+                lasers.splice(i, 1);
+            }
+        }
+    }
+}
+
+
+/* =========================================================
+   PLAYER DAMAGE
+   ========================================================= */
+
+function playerDamage(amount) {
+
+    playerHealth -= amount;
+
+    playerHealth =
+        Math.max(
+            0,
+            playerHealth
+        );
+
+
+    document.getElementById(
+        "healthText"
+    ).textContent =
+        Math.round(playerHealth);
+
+
+    document.getElementById(
+        "health"
+    ).style.width =
+        playerHealth + "%";
+
+
+    if (playerHealth <= 0) {
+
+        showMessage(
+            "You were eliminated!"
+        );
+
+        gameStarted = false;
+    }
+}
+
+
+/* =========================================================
+   BOT COUNT
+   ========================================================= */
+
+function updateBotCount() {
+
+    const alive =
+        bots.filter(
+            bot =>
+                bot.userData.health > 0
+        ).length;
+
+
+    document.getElementById(
+        "botCount"
+    ).textContent = alive;
+
+
+    if (alive === 0) {
+
+        showMessage(
+            "🏆 YOU WIN!"
+        );
+
+        gameStarted = false;
+    }
+}
+
+
+/* =========================================================
+   KEYBOARD
+   ========================================================= */
+
+function keyDown(event) {
+
+    keys[event.code] = true;
+}
+
+
+function keyUp(event) {
+
+    keys[event.code] = false;
+}
+
+
+/* =========================================================
+   MOUSE LOOK
+   ========================================================= */
+
+let mouseX = 0;
+
+function mouseLook(event) {
+
+    if (!gameStarted)
+        return;
+
+
+    player.rotation.y -=
+        event.movementX * 0.002;
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+function showMessage(text) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    message.textContent = text;
+
+    message.style.display = "block";
+}
+
+
+/* =========================================================
+   RESIZE
+   ========================================================= */
+
+function resize() {
+
+    camera.aspect =
+        window.innerWidth /
+        window.innerHeight;
+
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+    );
+}
+
+
+/* =========================================================
+   GAME LOOP
+   ========================================================= */
+
+function animate() {
+
+    if (!gameStarted) {
+
+        renderer.render(
+            scene,
+            camera
+        );
+
+        return;
+    }
+
+
+    requestAnimationFrame(
+        animate
+    );
+
+
+    const delta =
+        Math.min(
+            clock.getDelta(),
+            0.05
+        );
+
+
+    updatePlayer(delta);
+
+    updateBots(delta);
+
+    updateLasers(delta);
+
+
+    renderer.render(
+        scene,
+        camera
+    );
+}
+</script>
 
 </body>
 </html>
