@@ -6,167 +6,148 @@
 <title>Malek Battle Island</title>
 
 <style>
-* {
-    box-sizing: border-box;
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000;
+    font-family:Arial,sans-serif;
 }
 
-html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    background: #000;
+#game{
+    position:fixed;
+    inset:0;
 }
 
-#game {
-    position: fixed;
-    inset: 0;
+#hud{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    color:white;
+    z-index:10;
 }
 
-#hud {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    color: white;
-    z-index: 10;
+.panel{
+    background:rgba(0,0,0,.55);
+    border-radius:12px;
+    padding:14px;
 }
 
-#topLeft {
-    position: absolute;
-    top: 18px;
-    left: 18px;
-    background: rgba(0,0,0,.55);
-    padding: 14px;
-    border-radius: 12px;
-    min-width: 210px;
+#stats{
+    position:absolute;
+    top:18px;
+    left:18px;
+    width:220px;
 }
 
-.bar {
-    width: 190px;
-    height: 14px;
-    background: #222;
-    margin-top: 6px;
-    border-radius: 20px;
-    overflow: hidden;
+.bar{
+    height:14px;
+    margin-top:5px;
+    background:#222;
+    border-radius:20px;
+    overflow:hidden;
 }
 
-#healthBar {
-    height: 100%;
-    width: 100%;
-    background: #22c55e;
+#health{
+    width:100%;
+    height:100%;
+    background:#22c55e;
 }
 
-#shieldBar {
-    height: 100%;
-    width: 100%;
-    background: #38bdf8;
+#shield{
+    width:100%;
+    height:100%;
+    background:#38bdf8;
 }
 
-#weaponBox {
-    position: absolute;
-    bottom: 25px;
-    right: 25px;
-    background: rgba(0,0,0,.65);
-    padding: 18px;
-    border-radius: 15px;
-    min-width: 230px;
-    text-align: center;
+#right{
+    position:absolute;
+    top:18px;
+    right:18px;
 }
 
-#crosshair {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 28px;
-    height: 28px;
-    transform: translate(-50%, -50%);
+#weapon{
+    position:absolute;
+    right:20px;
+    bottom:20px;
+    min-width:240px;
+    text-align:center;
+    font-size:20px;
 }
 
-#crosshair::before,
-#crosshair::after {
-    content: "";
-    position: absolute;
-    background: white;
+#crosshair{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:26px;
+    height:26px;
+    transform:translate(-50%,-50%);
 }
 
-#crosshair::before {
-    width: 28px;
-    height: 2px;
-    top: 13px;
+#crosshair:before,
+#crosshair:after{
+    content:"";
+    position:absolute;
+    background:white;
 }
 
-#crosshair::after {
-    width: 2px;
-    height: 28px;
-    left: 13px;
+#crosshair:before{
+    width:26px;
+    height:2px;
+    top:12px;
 }
 
-#status {
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    background: rgba(0,0,0,.55);
-    padding: 12px 18px;
-    border-radius: 12px;
+#crosshair:after{
+    width:2px;
+    height:26px;
+    left:12px;
 }
 
-#message {
-    position: absolute;
-    left: 50%;
-    top: 30%;
-    transform: translate(-50%, -50%);
-    font-size: 42px;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: 0 3px 15px #000;
+#message{
+    position:absolute;
+    left:50%;
+    top:25%;
+    transform:translateX(-50%);
+    font-size:42px;
+    font-weight:bold;
+    text-align:center;
+    text-shadow:0 3px 15px #000;
 }
 
-#startScreen {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: white;
-    background:
-        radial-gradient(circle at center, #243b55, #050914 70%);
+#start{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    color:white;
+    background:linear-gradient(#173451,#050914);
 }
 
-#startScreen h1 {
-    font-size: 64px;
-    margin: 0 0 10px;
+#start h1{
+    font-size:60px;
+    margin:0 0 12px;
 }
 
-#startScreen p {
-    color: #cbd5e1;
-    max-width: 650px;
-    line-height: 1.7;
+#start p{
+    max-width:650px;
+    line-height:1.7;
+    color:#cbd5e1;
 }
 
-#startButton {
-    margin-top: 20px;
-    padding: 17px 38px;
-    border: none;
-    border-radius: 12px;
-    background: #2563eb;
-    color: white;
-    font-size: 21px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-#startButton:hover {
-    background: #3b82f6;
-}
-
-#controls {
-    margin-top: 18px;
-    font-size: 14px;
-    color: #94a3b8;
+button{
+    border:0;
+    border-radius:12px;
+    padding:16px 35px;
+    font-size:20px;
+    font-weight:bold;
+    color:white;
+    background:#2563eb;
+    cursor:pointer;
 }
 </style>
 </head>
@@ -177,66 +158,63 @@ html, body {
 
 <div id="hud">
 
-    <div id="topLeft">
-        <div>❤️ Health</div>
+    <div id="stats" class="panel">
+        <b>PLAYER</b><br><br>
+
+        ❤️ Health
         <div class="bar">
-            <div id="healthBar"></div>
+            <div id="health"></div>
         </div>
 
-        <div style="margin-top:8px">🛡️ Shield</div>
+        🛡️ Shield
         <div class="bar">
-            <div id="shieldBar"></div>
+            <div id="shield"></div>
         </div>
 
-        <div style="margin-top:10px">
-            ⚡ GOD MODE:
-            <span id="godMode">ON</span>
-        </div>
+        <br>
 
-        <div>
-            🪽 FLIGHT:
-            <span id="flightMode">OFF</span>
-        </div>
+        ⚡ IMMUNE: <b>YES</b><br>
+        🪽 FLIGHT: <span id="flight">OFF</span>
     </div>
 
-    <div id="status">
-        Players: <span id="players">25</span>
+    <div id="right" class="panel">
+        🤖 Bots Remaining:
+        <b id="bots">20</b>
     </div>
 
     <div id="crosshair"></div>
 
     <div id="message"></div>
 
-    <div id="weaponBox">
-        <div style="font-size:25px">⚡</div>
-        <div id="weaponName">OMEGA LASER</div>
-        <div id="ammo">∞</div>
+    <div id="weapon" class="panel">
+        ⚡ OMEGA LASER<br>
+        <small>UNLIMITED</small>
     </div>
 
 </div>
 
-<div id="startScreen">
-
+<div id="start">
     <h1>⚡ MALEK BATTLE ISLAND</h1>
 
     <p>
-        Drop onto an original 3D battle island.
-        AI opponents search for weapons and fight each other.
-        You spawn with the Omega Laser, God Mode and special flight.
+        You are the only player with the special technology.
+        You cannot be damaged, you can fly, and you have the
+        Omega Laser. The AI opponents must find ordinary
+        weapons and fight to survive.
+    </p>
+
+    <p>
+        WASD — Move &nbsp; | &nbsp;
+        Mouse — Look &nbsp; | &nbsp;
+        Click — Fire<br>
+        F — Toggle Flight &nbsp; | &nbsp;
+        Space — Fly Up &nbsp; | &nbsp;
+        Shift — Fly Down
     </p>
 
     <button id="startButton">
-        ENTER THE BATTLE
+        ENTER BATTLE
     </button>
-
-    <div id="controls">
-        WASD = Move &nbsp; | &nbsp;
-        Mouse = Look &nbsp; | &nbsp;
-        Click = Fire &nbsp; | &nbsp;
-        F = Flight &nbsp; | &nbsp;
-        Space = Jump
-    </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
@@ -244,7 +222,7 @@ html, body {
 <script>
 
 /* =========================================================
-   GAME STATE
+   GAME VARIABLES
    ========================================================= */
 
 let scene;
@@ -253,104 +231,102 @@ let renderer;
 let clock;
 
 let player;
-let playerMesh;
+let playerCharacter;
 
-let gameRunning = false;
-let busPhase = true;
-let playerDropped = false;
+let running=false;
+let dropped=false;
 
-let health = 100;
-let shield = 100;
+let flying=false;
 
-let flying = false;
-let godMode = true;
+let yaw=0;
+let pitch=0;
 
-let yaw = 0;
-let pitch = 0;
+const keys={};
 
-const keys = {};
-const bots = [];
-const projectiles = [];
-const loot = [];
-const buildings = [];
+const bots=[];
+const bullets=[];
 
-let stormRadius = 105;
-
-const WORLD_SIZE = 220;
+const WORLD=220;
 
 
 /* =========================================================
    START
    ========================================================= */
 
-document.getElementById("startButton").onclick = startGame;
+document
+.getElementById("startButton")
+.addEventListener("click",startGame);
 
-function startGame() {
 
-    document.getElementById("startScreen").style.display = "none";
+function startGame(){
 
-    gameRunning = true;
+    document
+    .getElementById("start")
+    .style.display="none";
 
-    createGame();
+    running=true;
 
-    startBattleBus();
+    setup();
+
+    startBus();
 
     animate();
 }
 
 
 /* =========================================================
-   CREATE GAME
+   SETUP
    ========================================================= */
 
-function createGame() {
+function setup(){
 
-    clock = new THREE.Clock();
+    clock=new THREE.Clock();
 
-    scene = new THREE.Scene();
+    scene=new THREE.Scene();
 
-    scene.background = new THREE.Color(0x79bce8);
+    scene.background=
+        new THREE.Color(0x79bce8);
 
-    scene.fog = new THREE.Fog(
-        0x79bce8,
-        90,
-        300
-    );
-
-
-    renderer =
-        new THREE.WebGLRenderer({
-            antialias: true
-        });
-
-    renderer.setSize(
-        window.innerWidth,
-        window.innerHeight
-    );
-
-    renderer.shadowMap.enabled = true;
-
-    document
-        .getElementById("game")
-        .appendChild(renderer.domElement);
-
-
-    camera =
-        new THREE.PerspectiveCamera(
-            75,
-            window.innerWidth /
-            window.innerHeight,
-            0.1,
-            600
+    scene.fog=
+        new THREE.Fog(
+            0x79bce8,
+            90,
+            320
         );
 
 
-    /* LIGHT */
+    renderer=
+        new THREE.WebGLRenderer({
+            antialias:true
+        });
 
-    const sun =
+    renderer.setSize(
+        innerWidth,
+        innerHeight
+    );
+
+    renderer.shadowMap.enabled=true;
+
+    document
+    .getElementById("game")
+    .appendChild(renderer.domElement);
+
+
+    camera=
+        new THREE.PerspectiveCamera(
+            75,
+            innerWidth/innerHeight,
+            .1,
+            700
+        );
+
+
+    /* LIGHTING */
+
+    const sun=
         new THREE.DirectionalLight(
             0xffffff,
-            2.5
+            2.4
         );
 
     sun.position.set(
@@ -359,374 +335,239 @@ function createGame() {
         60
     );
 
-    sun.castShadow = true;
+    sun.castShadow=true;
 
     scene.add(sun);
 
 
-    const ambient =
+    scene.add(
         new THREE.HemisphereLight(
-            0xbfe8ff,
+            0xc8ecff,
             0x35552b,
-            1.4
-        );
+            1.3
+        )
+    );
 
-    scene.add(ambient);
 
-
-    createIsland();
-
-    createMountains();
-
-    createBuildings();
-
-    createTrees();
-
-    createLoot();
+    createWorld();
 
     createPlayer();
 
     createBots();
 
-    createStorm();
 
-
-    window.addEventListener(
+    addEventListener(
         "resize",
         resize
     );
 
-    document.addEventListener(
+    addEventListener(
         "keydown",
         keyDown
     );
 
-    document.addEventListener(
+    addEventListener(
         "keyup",
         keyUp
     );
 
-    document.addEventListener(
-        "mousedown",
-        mouseDown
+    addEventListener(
+        "mousemove",
+        mouseLook
     );
 
-    document.addEventListener(
-        "mousemove",
-        mouseMove
+    addEventListener(
+        "mousedown",
+        fire
     );
 }
 
 
 /* =========================================================
-   ISLAND
+   WORLD
    ========================================================= */
 
-function createIsland() {
+function createWorld(){
 
-    const geometry =
-        new THREE.PlaneGeometry(
-            WORLD_SIZE,
-            WORLD_SIZE,
-            30,
-            30
-        );
-
-    const material =
-        new THREE.MeshStandardMaterial({
-            color: 0x4f8738
-        });
-
-    const island =
+    const ground=
         new THREE.Mesh(
-            geometry,
-            material
+            new THREE.PlaneGeometry(
+                WORLD,
+                WORLD,
+                20,
+                20
+            ),
+            new THREE.MeshStandardMaterial({
+                color:0x4d8537
+            })
         );
 
-    island.rotation.x =
-        -Math.PI / 2;
+    ground.rotation.x=-Math.PI/2;
 
-    island.receiveShadow = true;
+    ground.receiveShadow=true;
 
-    scene.add(island);
+    scene.add(ground);
 
 
-    const waterGeometry =
-        new THREE.PlaneGeometry(
-            WORLD_SIZE + 100,
-            WORLD_SIZE + 100
-        );
-
-    const waterMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x2489c5,
-            roughness: .25
-        });
-
-    const water =
+    const water=
         new THREE.Mesh(
-            waterGeometry,
-            waterMaterial
+            new THREE.PlaneGeometry(
+                WORLD+100,
+                WORLD+100
+            ),
+            new THREE.MeshStandardMaterial({
+                color:0x278bc4,
+                roughness:.25
+            })
         );
 
-    water.rotation.x =
-        -Math.PI / 2;
+    water.rotation.x=-Math.PI/2;
 
-    water.position.y = -0.4;
+    water.position.y=-.5;
 
     scene.add(water);
 
 
-    const grid =
-        new THREE.GridHelper(
-            WORLD_SIZE,
-            44,
-            0x37652e,
-            0x5d9349
-        );
+    /* BUILDINGS */
 
-    grid.position.y = .02;
+    for(let i=0;i<32;i++){
 
-    scene.add(grid);
-}
+        const w=5+Math.random()*8;
+        const h=3+Math.random()*8;
+        const d=5+Math.random()*8;
 
-
-/* =========================================================
-   MOUNTAINS
-   ========================================================= */
-
-function createMountains() {
-
-    for (let i = 0; i < 18; i++) {
-
-        const radius =
-            3 + Math.random() * 7;
-
-        const height =
-            8 + Math.random() * 18;
-
-        const geometry =
-            new THREE.ConeGeometry(
-                radius,
-                height,
-                7
-            );
-
-        const material =
-            new THREE.MeshStandardMaterial({
-                color: 0x59634d
-            });
-
-        const mountain =
+        const building=
             new THREE.Mesh(
-                geometry,
-                material
-            );
-
-        const angle =
-            Math.random() * Math.PI * 2;
-
-        const distance =
-            75 + Math.random() * 30;
-
-        mountain.position.set(
-            Math.cos(angle) * distance,
-            height / 2,
-            Math.sin(angle) * distance
-        );
-
-        mountain.castShadow = true;
-
-        scene.add(mountain);
-    }
-}
-
-
-/* =========================================================
-   BUILDINGS
-   ========================================================= */
-
-function createBuildings() {
-
-    for (let i = 0; i < 35; i++) {
-
-        const width =
-            5 + Math.random() * 8;
-
-        const height =
-            3 + Math.random() * 9;
-
-        const depth =
-            5 + Math.random() * 8;
-
-        const geometry =
-            new THREE.BoxGeometry(
-                width,
-                height,
-                depth
-            );
-
-        const material =
-            new THREE.MeshStandardMaterial({
-                color:
-                    Math.random() > .5
-                    ? 0x777777
-                    : 0x9a744b
-            });
-
-        const building =
-            new THREE.Mesh(
-                geometry,
-                material
+                new THREE.BoxGeometry(
+                    w,h,d
+                ),
+                new THREE.MeshStandardMaterial({
+                    color:
+                        Math.random()>.5
+                        ?0x777777
+                        :0x98734b
+                })
             );
 
         building.position.set(
-            (Math.random() - .5) *
-            (WORLD_SIZE - 25),
+            (Math.random()-.5)*
+            (WORLD-20),
 
-            height / 2,
+            h/2,
 
-            (Math.random() - .5) *
-            (WORLD_SIZE - 25)
+            (Math.random()-.5)*
+            (WORLD-20)
         );
 
-        building.castShadow = true;
-
-        building.receiveShadow = true;
+        building.castShadow=true;
 
         scene.add(building);
-
-        buildings.push(building);
     }
-}
 
 
-/* =========================================================
-   TREES
-   ========================================================= */
+    /* TREES */
 
-function createTrees() {
+    for(let i=0;i<100;i++){
 
-    for (let i = 0; i < 100; i++) {
-
-        const group =
+        const tree=
             new THREE.Group();
 
 
-        const trunk =
+        const trunk=
             new THREE.Mesh(
                 new THREE.CylinderGeometry(
-                    .25,
-                    .35,
-                    2.5,
-                    7
+                    .25,.35,2.5,7
                 ),
                 new THREE.MeshStandardMaterial({
-                    color: 0x704523
+                    color:0x704523
                 })
             );
 
-        trunk.position.y = 1.25;
+        trunk.position.y=1.25;
 
-        group.add(trunk);
+        tree.add(trunk);
 
 
-        const leaves =
+        const leaves=
             new THREE.Mesh(
                 new THREE.ConeGeometry(
-                    1.7,
-                    4.5,
-                    8
+                    1.7,4.5,8
                 ),
                 new THREE.MeshStandardMaterial({
-                    color: 0x1f6b32
+                    color:0x206b32
                 })
             );
 
-        leaves.position.y = 4;
+        leaves.position.y=4;
 
-        leaves.castShadow = true;
-
-        group.add(leaves);
+        tree.add(leaves);
 
 
-        group.position.set(
-            (Math.random() - .5) *
-            (WORLD_SIZE - 10),
+        tree.position.set(
+            (Math.random()-.5)*
+            (WORLD-10),
 
             0,
 
-            (Math.random() - .5) *
-            (WORLD_SIZE - 10)
+            (Math.random()-.5)*
+            (WORLD-10)
         );
 
-
-        scene.add(group);
+        scene.add(tree);
     }
 }
 
 
 /* =========================================================
-   LOOT
+   CHARACTER
    ========================================================= */
 
-function createLoot() {
+function character(color){
 
-    const weapons = [
-        "Pulse Rifle",
-        "Plasma SMG",
-        "Rail Rifle",
-        "Combat Blaster"
-    ];
+    const group=
+        new THREE.Group();
 
-    for (let i = 0; i < 35; i++) {
 
-        const geometry =
-            new THREE.BoxGeometry(
-                .8,
-                .3,
-                1.8
-            );
-
-        const material =
+    const body=
+        new THREE.Mesh(
+            new THREE.CapsuleGeometry(
+                .65,
+                1.3,
+                6,
+                12
+            ),
             new THREE.MeshStandardMaterial({
-                color:
-                    new THREE.Color(
-                        Math.random(),
-                        Math.random(),
-                        Math.random()
-                    ),
-                emissive: 0x111111
-            });
-
-        const item =
-            new THREE.Mesh(
-                geometry,
-                material
-            );
-
-        item.position.set(
-            (Math.random() - .5) *
-            (WORLD_SIZE - 20),
-
-            .4,
-
-            (Math.random() - .5) *
-            (WORLD_SIZE - 20)
+                color
+            })
         );
 
-        item.userData.weapon =
-            weapons[
-                Math.floor(
-                    Math.random() *
-                    weapons.length
-                )
-            ];
+    body.position.y=1.3;
 
-        scene.add(item);
+    body.castShadow=true;
 
-        loot.push(item);
-    }
+    group.add(body);
+
+
+    const head=
+        new THREE.Mesh(
+            new THREE.SphereGeometry(
+                .45,
+                16,
+                16
+            ),
+            new THREE.MeshStandardMaterial({
+                color:0xf1c7a5
+            })
+        );
+
+    head.position.y=2.5;
+
+    head.castShadow=true;
+
+    group.add(head);
+
+
+    return group;
 }
 
 
@@ -734,26 +575,24 @@ function createLoot() {
    PLAYER
    ========================================================= */
 
-function createPlayer() {
+function createPlayer(){
 
-    player =
+    player=
         new THREE.Object3D();
 
     player.position.set(
         0,
-        45,
+        30,
         0
     );
 
     scene.add(player);
 
 
-    playerMesh =
-        createCharacter(
-            0x2563eb
-        );
+    playerCharacter=
+        character(0x2563eb);
 
-    player.add(playerMesh);
+    player.add(playerCharacter);
 
 
     camera.position.set(
@@ -767,114 +606,59 @@ function createPlayer() {
 
 
 /* =========================================================
-   CHARACTER
-   ========================================================= */
-
-function createCharacter(color) {
-
-    const group =
-        new THREE.Group();
-
-
-    const body =
-        new THREE.Mesh(
-            new THREE.CapsuleGeometry(
-                .65,
-                1.3,
-                6,
-                12
-            ),
-            new THREE.MeshStandardMaterial({
-                color
-            })
-        );
-
-    body.position.y = 1.3;
-
-    body.castShadow = true;
-
-    group.add(body);
-
-
-    const head =
-        new THREE.Mesh(
-            new THREE.SphereGeometry(
-                .45,
-                16,
-                16
-            ),
-            new THREE.MeshStandardMaterial({
-                color: 0xf1c7a5
-            })
-        );
-
-    head.position.y = 2.5;
-
-    head.castShadow = true;
-
-    group.add(head);
-
-
-    return group;
-}
-
-
-/* =========================================================
    BOTS
    ========================================================= */
 
-function createBots() {
+function createBots(){
 
-    for (let i = 0; i < 24; i++) {
+    for(let i=0;i<20;i++){
 
-        const bot =
+        const bot=
             new THREE.Object3D();
 
-
         bot.position.set(
-            (Math.random() - .5) *
-            (WORLD_SIZE - 20),
+            (Math.random()-.5)*
+            (WORLD-20),
 
             1.7,
 
-            (Math.random() - .5) *
-            (WORLD_SIZE - 20)
+            (Math.random()-.5)*
+            (WORLD-20)
         );
 
 
         bot.add(
-            createCharacter(
+            character(
                 new THREE.Color(
-                    .5 + Math.random() * .5,
-                    .15 + Math.random() * .5,
-                    .15 + Math.random() * .5
+                    .4+Math.random()*.6,
+                    .15+Math.random()*.5,
+                    .15+Math.random()*.5
                 )
             )
         );
 
 
-        bot.userData.health = 100;
+        bot.userData.health=100;
 
-        bot.userData.weapon =
-            Math.random() > .5
-            ? "Rifle"
-            : "SMG";
+        bot.userData.speed=
+            2+Math.random()*2;
 
-        bot.userData.speed =
-            2 + Math.random() * 2;
+        bot.userData.shootTimer=
+            Math.random()*3;
 
-        bot.userData.shootTimer =
-            Math.random() * 3;
+        bot.userData.weapon=
+            Math.random()>.5
+            ?"Rifle"
+            :"SMG";
 
-        bot.userData.target =
-            null;
 
         scene.add(bot);
 
         bots.push(bot);
     }
 
-    updatePlayers();
+
+    updateBotCounter();
 }
 
 
@@ -882,86 +666,76 @@ function createBots() {
    BATTLE BUS
    ========================================================= */
 
-let bus;
+function startBus(){
 
-function startBattleBus() {
-
-    bus =
+    const bus=
         new THREE.Group();
 
 
-    const body =
+    const body=
         new THREE.Mesh(
             new THREE.BoxGeometry(
-                8,
-                3,
-                3
+                8,3,3
             ),
             new THREE.MeshStandardMaterial({
-                color: 0x315fa8
+                color:0x315fa8
             })
         );
 
-    body.position.y = 35;
+    body.position.y=35;
 
     bus.add(body);
 
 
-    const balloon =
+    const balloon=
         new THREE.Mesh(
             new THREE.SphereGeometry(
-                4,
-                20,
-                20
+                4,20,20
             ),
             new THREE.MeshStandardMaterial({
-                color: 0x3b82f6
+                color:0x3b82f6
             })
         );
 
-    balloon.position.y = 43;
+    balloon.position.y=43;
 
     bus.add(balloon);
 
 
     bus.position.set(
-        -100,
-        20,
-        -100
+        -105,
+        25,
+        -105
     );
 
     scene.add(bus);
 
 
-    showMessage(
+    message(
         "BATTLE BUS — DROP IN!"
     );
 
 
-    let elapsed = 0;
+    let t=0;
 
-    const busTimer =
-        setInterval(() => {
+    const timer=
+        setInterval(()=>{
 
-            if (!bus)
-                return;
+            t+=.08;
 
-            elapsed += .08;
+            bus.position.x+=.9;
+            bus.position.z+=.55;
 
-            bus.position.x += .8;
+            if(t>8){
 
-            bus.position.z += .5;
-
-            if (elapsed > 8) {
-
-                clearInterval(busTimer);
+                clearInterval(timer);
 
                 scene.remove(bus);
 
                 dropPlayer();
             }
 
-        }, 80);
+        },80);
 }
 
 
@@ -969,175 +743,118 @@ function startBattleBus() {
    DROP
    ========================================================= */
 
-function dropPlayer() {
+function dropPlayer(){
 
-    busPhase = false;
-
-    playerDropped = true;
+    dropped=true;
 
     player.position.set(
         0,
-        20,
+        25,
         0
     );
 
-    showMessage(
-        "DROP COMPLETE — SURVIVE!"
+    message(
+        "DROP COMPLETE"
     );
 
     setTimeout(
-        () => {
-            document.getElementById(
-                "message"
-            ).textContent = "";
+        ()=>{
+            message("");
         },
-        2500
+        1800
     );
 }
 
 
 /* =========================================================
-   STORM
+   MOVEMENT
    ========================================================= */
 
-function createStorm() {
+function updatePlayer(dt){
 
-    const geometry =
-        new THREE.RingGeometry(
-            stormRadius - .8,
-            stormRadius,
-            96
-        );
-
-    const material =
-        new THREE.MeshBasicMaterial({
-            color: 0xa855f7,
-            side: THREE.DoubleSide,
-            transparent: true,
-            opacity: .55
-        });
-
-    const ring =
-        new THREE.Mesh(
-            geometry,
-            material
-        );
-
-    ring.rotation.x =
-        -Math.PI / 2;
-
-    ring.position.y = .2;
-
-    scene.add(ring);
-
-    scene.userData.storm =
-        ring;
-}
-
-
-/* =========================================================
-   PLAYER UPDATE
-   ========================================================= */
-
-function updatePlayer(delta) {
-
-    if (!playerDropped)
+    if(!dropped)
         return;
 
 
-    const speed =
+    const speed=
         flying
-        ? 18
-        : 9;
+        ?18
+        :9;
 
 
-    const direction =
+    const direction=
         new THREE.Vector3();
 
 
-    if (keys["KeyW"])
-        direction.z -= 1;
+    if(keys.KeyW)
+        direction.z-=1;
 
-    if (keys["KeyS"])
-        direction.z += 1;
+    if(keys.KeyS)
+        direction.z+=1;
 
-    if (keys["KeyA"])
-        direction.x -= 1;
+    if(keys.KeyA)
+        direction.x-=1;
 
-    if (keys["KeyD"])
-        direction.x += 1;
+    if(keys.KeyD)
+        direction.x+=1;
 
 
-    if (flying) {
+    if(flying){
 
-        if (keys["Space"])
-            direction.y += 1;
+        if(keys.Space)
+            direction.y+=1;
 
-        if (keys["ShiftLeft"])
-            direction.y -= 1;
+        if(keys.ShiftLeft ||
+           keys.ShiftRight)
+            direction.y-=1;
     }
 
 
-    if (direction.length() > 0) {
+    if(direction.length()>0){
 
         direction.normalize();
 
-        const rotation =
-            new THREE.Euler(
-                0,
-                yaw,
-                0
-            );
-
-        direction.applyEuler(
-            rotation
+        direction.applyAxisAngle(
+            new THREE.Vector3(0,1,0),
+            yaw
         );
 
         player.position.addScaledVector(
             direction,
-            speed * delta
+            speed*dt
         );
     }
 
 
-    if (!flying) {
+    if(!flying){
 
-        player.position.y =
+        player.position.y=
             THREE.MathUtils.lerp(
                 player.position.y,
                 1.7,
                 .1
             );
-
-    } else {
-
-        player.position.y =
-            THREE.MathUtils.clamp(
-                player.position.y,
-                2,
-                70
-            );
     }
 
 
-    player.position.x =
+    player.position.x=
         THREE.MathUtils.clamp(
             player.position.x,
-            -WORLD_SIZE / 2,
-            WORLD_SIZE / 2
+            -WORLD/2,
+            WORLD/2
         );
 
-    player.position.z =
+    player.position.z=
         THREE.MathUtils.clamp(
             player.position.z,
-            -WORLD_SIZE / 2,
-            WORLD_SIZE / 2
+            -WORLD/2,
+            WORLD/2
         );
 
 
-    player.rotation.y = yaw;
+    player.rotation.y=yaw;
 
-    camera.rotation.x = pitch;
+    camera.rotation.x=pitch;
 }
 
 
@@ -1145,102 +862,93 @@ function updatePlayer(delta) {
    BOT AI
    ========================================================= */
 
-function updateBots(delta) {
+function updateBots(dt){
 
-    for (const bot of bots) {
+    for(const bot of bots){
 
-        if (
-            bot.userData.health <= 0 ||
-            !bot.visible
+        if(
+            !bot.visible ||
+            bot.userData.health<=0
         )
             continue;
 
 
-        const distance =
+        const distance=
             bot.position.distanceTo(
                 player.position
             );
 
 
-        if (distance > 18) {
+        /* APPROACH PLAYER */
 
-            const direction =
+        if(distance>20){
+
+            const dir=
                 new THREE.Vector3()
-                    .subVectors(
-                        player.position,
-                        bot.position
-                    )
-                    .normalize();
+                .subVectors(
+                    player.position,
+                    bot.position
+                )
+                .normalize();
 
 
             bot.position.addScaledVector(
-                direction,
-                bot.userData.speed *
-                delta
+                dir,
+                bot.userData.speed*dt
             );
 
-        } else {
-
-            const angle =
-                Math.atan2(
-                    player.position.z -
-                    bot.position.z,
-
-                    player.position.x -
-                    bot.position.x
-                );
-
-
-            bot.rotation.y =
-                -angle + Math.PI / 2;
         }
 
 
-        bot.userData.shootTimer -= delta;
+        /* SHOOT */
+
+        bot.userData.shootTimer-=dt;
 
 
-        if (
-            distance < 45 &&
-            bot.userData.shootTimer <= 0
-        ) {
+        if(
+            distance<50 &&
+            bot.userData.shootTimer<=0
+        ){
 
-            bot.userData.shootTimer =
-                1.2 + Math.random() * 2;
+            bot.userData.shootTimer=
+                1.2+Math.random()*2;
 
             botShoot(bot);
         }
 
 
-        /* BOT VS BOT */
+        /* BOTS CAN FIGHT EACH OTHER */
 
-        for (const other of bots) {
+        for(const other of bots){
 
-            if (
-                other === bot ||
+            if(
+                other===bot ||
                 !other.visible ||
-                other.userData.health <= 0
+                other.userData.health<=0
             )
                 continue;
 
 
-            const d =
+            const d=
                 bot.position.distanceTo(
                     other.position
                 );
 
 
-            if (
-                d < 30 &&
-                Math.random() < .004
-            ) {
+            if(
+                d<25 &&
+                Math.random()<.003
+            ){
 
-                other.userData.health -= 8;
+                other.userData.health-=10;
 
-                if (
-                    other.userData.health <= 0
-                ) {
+                if(
+                    other.userData.health<=0
+                ){
 
-                    other.visible = false;
+                    other.visible=false;
+
+                    updateBotCounter();
                 }
             }
         }
@@ -1249,74 +957,129 @@ function updateBots(delta) {
 
 
 /* =========================================================
-   SHOOTING
+   YOUR LASER
    ========================================================= */
 
-function mouseDown() {
+function fire(){
 
-    if (
-        gameRunning &&
-        playerDropped
-    ) {
-
-        fireLaser();
-    }
-}
+    if(
+        !running ||
+        !dropped
+    )
+        return;
 
 
-function fireLaser() {
-
-    const origin =
+    const origin=
         camera.getWorldPosition(
             new THREE.Vector3()
         );
 
 
-    const direction =
+    const direction=
         new THREE.Vector3(
-            0,
-            0,
-            -1
+            0,0,-1
         );
-
 
     direction.applyQuaternion(
         camera.quaternion
     );
 
 
-    createProjectile(
+    laser(
         origin,
-        direction,
-        true,
-        100
+        direction
     );
 }
 
 
-function botShoot(bot) {
+function laser(origin,direction){
 
-    const origin =
+    const beam=
+        new THREE.Mesh(
+            new THREE.CylinderGeometry(
+                .1,.1,3,8
+            ),
+            new THREE.MeshBasicMaterial({
+                color:0x00ffff
+            })
+        );
+
+
+    beam.position.copy(origin);
+
+
+    beam.quaternion.setFromUnitVectors(
+        new THREE.Vector3(0,1,0),
+        direction
+    );
+
+
+    beam.userData.velocity=
+        direction
+        .clone()
+        .multiplyScalar(110);
+
+    beam.userData.life=2;
+
+    beam.userData.damage=1000;
+
+    beam.userData.playerWeapon=true;
+
+
+    scene.add(beam);
+
+    bullets.push(beam);
+}
+
+
+/* =========================================================
+   BOT WEAPONS
+   ========================================================= */
+
+function botShoot(bot){
+
+    const origin=
         bot.position.clone();
 
-    origin.y += 1.5;
+    origin.y+=1.5;
 
 
-    const direction =
+    const direction=
         new THREE.Vector3()
-            .subVectors(
-                player.position,
-                origin
-            )
-            .normalize();
+        .subVectors(
+            player.position,
+            origin
+        )
+        .normalize();
 
 
-    createProjectile(
-        origin,
-        direction,
-        false,
-        12
-    );
+    const bullet=
+        new THREE.Mesh(
+            new THREE.SphereGeometry(
+                .12,
+                8,
+                8
+            ),
+            new THREE.MeshBasicMaterial({
+                color:0xff3333
+            })
+        );
+
+
+    bullet.position.copy(origin);
+
+    bullet.userData.velocity=
+        direction
+        .multiplyScalar(55);
+
+    bullet.userData.life=2;
+
+    bullet.userData.playerWeapon=false;
+
+
+    scene.add(bullet);
+
+    bullets.push(bullet);
 }
 
 
@@ -1324,170 +1087,109 @@ function botShoot(bot) {
    PROJECTILES
    ========================================================= */
 
-function createProjectile(
-    origin,
-    direction,
-    friendly,
-    damage
-) {
+function updateBullets(dt){
 
-    const geometry =
-        new THREE.CylinderGeometry(
-            .08,
-            .08,
-            3,
-            8
-        );
-
-
-    const material =
-        new THREE.MeshBasicMaterial({
-            color:
-                friendly
-                ? 0x00ffff
-                : 0xff3333
-        });
-
-
-    const projectile =
-        new THREE.Mesh(
-            geometry,
-            material
-        );
-
-
-    projectile.position.copy(
-        origin
-    );
-
-
-    projectile.quaternion.setFromUnitVectors(
-        new THREE.Vector3(0,1,0),
-        direction
-    );
-
-
-    projectile.userData.velocity =
-        direction
-            .clone()
-            .multiplyScalar(
-                friendly ? 100 : 55
-            );
-
-
-    projectile.userData.friendly =
-        friendly;
-
-    projectile.userData.damage =
-        damage;
-
-    projectile.userData.life =
-        2.5;
-
-
-    scene.add(projectile);
-
-    projectiles.push(projectile);
-}
-
-
-/* =========================================================
-   PROJECTILE UPDATE
-   ========================================================= */
-
-function updateProjectiles(delta) {
-
-    for (
-        let i = projectiles.length - 1;
-        i >= 0;
+    for(
+        let i=bullets.length-1;
+        i>=0;
         i--
-    ) {
+    ){
 
-        const p =
-            projectiles[i];
+        const bullet=bullets[i];
 
 
-        p.position.addScaledVector(
-            p.userData.velocity,
-            delta
+        bullet.position.addScaledVector(
+            bullet.userData.velocity,
+            dt
         );
 
 
-        p.userData.life -= delta;
+        bullet.userData.life-=dt;
 
 
-        if (p.userData.life <= 0) {
+        if(
+            bullet.userData.life<=0
+        ){
 
-            removeProjectile(i);
+            removeBullet(i);
 
             continue;
         }
 
 
-        if (p.userData.friendly) {
+        /* YOUR WEAPON */
 
-            for (const bot of bots) {
+        if(
+            bullet.userData.playerWeapon
+        ){
 
-                if (
+            for(const bot of bots){
+
+                if(
                     !bot.visible ||
-                    bot.userData.health <= 0
+                    bot.userData.health<=0
                 )
                     continue;
 
 
-                if (
-                    p.position.distanceTo(
+                if(
+                    bullet.position.distanceTo(
                         bot.position
-                    ) < 1.6
-                ) {
+                    )<1.7
+                ){
 
-                    bot.userData.health -=
-                        p.userData.damage;
-
-
-                    removeProjectile(i);
+                    bot.userData.health-=
+                        bullet.userData.damage;
 
 
-                    if (
-                        bot.userData.health <= 0
-                    ) {
+                    removeBullet(i);
 
-                        bot.visible = false;
 
-                        updatePlayers();
+                    if(
+                        bot.userData.health<=0
+                    ){
+
+                        bot.visible=false;
+
+                        updateBotCounter();
                     }
 
                     break;
                 }
             }
 
-        } else {
+        }
 
-            if (
-                p.position.distanceTo(
+        /* BOT WEAPON */
+
+        else{
+
+            /*
+             * IMPORTANT:
+             * BOT BULLETS CANNOT DAMAGE YOU.
+             * YOU ARE IMMUNE.
+             */
+
+            if(
+                bullet.position.distanceTo(
                     player.position
-                ) < 1.4
-            ) {
+                )<1.5
+            ){
 
-                if (!godMode)
-                    damagePlayer(
-                        p.userData.damage
-                    );
-
-                removeProjectile(i);
+                removeBullet(i);
             }
         }
     }
 }
 
 
-function removeProjectile(i) {
+function removeBullet(i){
 
     scene.remove(
-        projectiles[i]
+        bullets[i]
     );
 
-    projectiles.splice(
+    bullets.splice(
         i,
         1
     );
@@ -1495,112 +1197,32 @@ function removeProjectile(i) {
 
 
 /* =========================================================
-   DAMAGE
+   MOUSE LOOK
    ========================================================= */
 
-function damagePlayer(amount) {
+function mouseLook(event){
 
-    if (godMode)
+    if(
+        !running ||
+        !dropped
+    )
         return;
 
 
-    if (shield > 0) {
-
-        shield -= amount;
-
-        if (shield < 0) {
-
-            health += shield;
-
-            shield = 0;
-        }
-
-    } else {
-
-        health -= amount;
-    }
+    yaw-=
+        event.movementX*.002;
 
 
-    health =
-        Math.max(
-            0,
-            health
+    pitch-=
+        event.movementY*.002;
+
+
+    pitch=
+        THREE.MathUtils.clamp(
+            pitch,
+            -1.45,
+            1.45
         );
-
-
-    updateHUD();
-
-
-    if (health <= 0) {
-
-        gameRunning = false;
-
-        showMessage(
-            "ELIMINATED"
-        );
-    }
-}
-
-
-/* =========================================================
-   HUD
-   ========================================================= */
-
-function updateHUD() {
-
-    document.getElementById(
-        "healthBar"
-    ).style.width =
-        health + "%";
-
-
-    document.getElementById(
-        "shieldBar"
-    ).style.width =
-        shield + "%";
-
-
-    document.getElementById(
-        "godMode"
-    ).textContent =
-        godMode
-        ? "ON"
-        : "OFF";
-
-
-    document.getElementById(
-        "flightMode"
-    ).textContent =
-        flying
-        ? "ON"
-        : "OFF";
-}
-
-
-function updatePlayers() {
-
-    const alive =
-        bots.filter(
-            bot =>
-                bot.visible &&
-                bot.userData.health > 0
-        ).length;
-
-
-    document.getElementById(
-        "players"
-    ).textContent =
-        alive + 1;
-
-
-    if (alive === 0) {
-
-        gameRunning = false;
-
-        showMessage(
-            "🏆 VICTORY ROYALE!"
-        );
-    }
 }
 
 
@@ -1608,69 +1230,58 @@ function updatePlayers() {
    INPUT
    ========================================================= */
 
-function keyDown(event) {
+function keyDown(event){
 
-    keys[event.code] = true;
-
-
-    if (event.code === "KeyF") {
-
-        flying = !flying;
-
-        updateHUD();
-    }
+    keys[event.code]=true;
 
 
-    if (
-        event.code === "Space" &&
-        !flying &&
-        playerDropped
-    ) {
+    if(event.code==="KeyF"){
 
-        player.position.y = 5;
+        flying=!flying;
 
-        setTimeout(
-            () => {
-                if (!flying)
-                    player.position.y = 1.7;
-            },
-            350
-        );
+        document
+        .getElementById("flight")
+        .textContent=
+            flying
+            ?"ON"
+            :"OFF";
     }
 }
 
 
-function keyUp(event) {
+function keyUp(event){
 
-    keys[event.code] = false;
+    keys[event.code]=false;
 }
 
 
-function mouseMove(event) {
+/* =========================================================
+   BOT COUNTER
+   ========================================================= */
 
-    if (
-        !gameRunning ||
-        !playerDropped
-    )
-        return;
+function updateBotCounter(){
 
-
-    yaw -=
-        event.movementX *
-        .002;
-
-
-    pitch -=
-        event.movementY *
-        .002;
+    const alive=
+        bots.filter(
+            b =>
+                b.visible &&
+                b.userData.health>0
+        ).length;
 
 
-    pitch =
-        THREE.MathUtils.clamp(
-            pitch,
-            -1.35,
-            1.35
+    document
+    .getElementById("bots")
+    .textContent=alive;
+
+
+    if(alive===0){
+
+        running=false;
+
+        message(
+            "🏆 VICTORY!"
         );
+    }
 }
 
 
@@ -1678,61 +1289,11 @@ function mouseMove(event) {
    MESSAGE
    ========================================================= */
 
-function showMessage(text) {
+function message(text){
 
-    document.getElementById(
-        "message"
-    ).textContent = text;
-}
-
-
-/* =========================================================
-   STORM
-   ========================================================= */
-
-function updateStorm(delta) {
-
-    if (!scene.userData.storm)
-        return;
-
-
-    stormRadius -=
-        delta * .08;
-
-
-    stormRadius =
-        Math.max(
-            30,
-            stormRadius
-        );
-
-
-    scene.userData.storm.scale.set(
-        stormRadius / 105,
-        stormRadius / 105,
-        1
-    );
-
-
-    const distance =
-        Math.sqrt(
-            player.position.x *
-            player.position.x +
-
-            player.position.z *
-            player.position.z
-        );
-
-
-    if (
-        distance > stormRadius &&
-        !godMode
-    ) {
-
-        damagePlayer(
-            delta * 5
-        );
-    }
+    document
+    .getElementById("message")
+    .textContent=text;
 }
 
 
@@ -1740,17 +1301,16 @@ function updateStorm(delta) {
    RESIZE
    ========================================================= */
 
-function resize() {
+function resize(){
 
-    camera.aspect =
-        window.innerWidth /
-        window.innerHeight;
+    camera.aspect=
+        innerWidth/innerHeight;
 
     camera.updateProjectionMatrix();
 
     renderer.setSize(
-        window.innerWidth,
-        window.innerHeight
+        innerWidth,
+        innerHeight
     );
 }
 
@@ -1759,35 +1319,31 @@ function resize() {
    GAME LOOP
    ========================================================= */
 
-function animate() {
+function animate(){
 
     requestAnimationFrame(
         animate
     );
 
 
-    if (!scene)
+    if(!scene)
         return;
 
 
-    const delta =
+    const dt=
         Math.min(
             clock.getDelta(),
             .05
         );
 
 
-    if (gameRunning) {
+    if(running){
 
-        updatePlayer(delta);
+        updatePlayer(dt);
 
-        updateBots(delta);
+        updateBots(dt);
 
-        updateProjectiles(delta);
-
-        updateStorm(delta);
-
-        updateHUD();
+        updateBullets(dt);
     }
 
 
